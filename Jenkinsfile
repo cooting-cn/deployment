@@ -72,13 +72,7 @@ spec:
   
   
   //声明选着标签变量TAG
-    parameters {
-        gitParameter name: 'TAG',
-                     type: 'PT_BRANCH_TAG',
-                     sortMode: 'DESCENDING_SMART',
-                     selectedValue: 'TOP',
-                     defaultValue: 'dev'
-    }
+
   parameters {
     listGitBranches branchFilter: 'refs/heads/(.*)',
         defaultValue: 'dev',
