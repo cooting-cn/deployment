@@ -1,3 +1,4 @@
+@Library('gitParameter@master')_
 
 pipeline {
   agent {
@@ -72,28 +73,30 @@ spec:
   
   
   //声明选着标签变量TAG
+def branchNameParam = [
+    $class: 'GitParameterDefinition',
+    name: 'BRANCH_NAME',
+    type: 'PT_BRANCH',
+    branchFilter: 'origin/(.*)',
+    defaultValue: 'master',
+    description: 'Please select the branch to build'
+]
+parameters {
+    gitParameter branchNameParam
+}
 
-  parameters {
-        gitParameter(
-            branchFilter: 'refs/heads/(.*)',
-            defaultValue: 'master',
-            name: 'branch_name',
-            remoteURL: 'https://gitlab.isigning.cn/ops/cicd-demo.git',
-            credentialsId: 'huqing',
-            selectedValue: 'DEFAULT',
-            sortMode: 'ASCENDING'
-        )
 
-
-         }
     
     //声明流程
     stages {
 
         stage('从 gitlab 中拉取代码') {
-            steps {
-                git branch: "${params.branch_name}", credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
 
+            steps {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: "${params.BRANCH_NAME}"]],
+                    userRemoteConfigs: [[url: 'https://gitlab.isigning.cn/ops/cicd-demo.git',credentialsId: 'huqing']]])
+                // Your build steps here
             }
         }
         
