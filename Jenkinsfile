@@ -1,4 +1,3 @@
-@Library('gitParameter@master')_
 
 pipeline {
   agent {
