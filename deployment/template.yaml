@@ -1,20 +1,20 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: $NAME
-  namespace: $NS
+  name: ${env.NAME}
+  namespace: ${env.NS}
 spec:
   selector:
     matchLabels:
-      app: $NAME
+      app: ${env.NAME}
   replicas: 1
   template:
     metadata:
       labels:
-        app: $NAME
+        app: ${env.NAME}
     spec:
       containers:
-      - name: $NAME
+      - name: ${env.NAME}
         image: $DOCKERIMG
         ports:
         - containerPort: 8080
@@ -22,14 +22,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: $NAME 
-  namespace: $NS
+  name: ${env.NAME}
+  namespace: ${env.NS}
 spec:
   selector:
-    app: $NAME   
+    app: ${env.NAME}
   type: NodePort
   ports:
-    - name: $NAME-port
+    - name: ${env.NAME}-port
       protocol: TCP
       port: 8080
       targetPort: 8080
