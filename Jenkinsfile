@@ -74,14 +74,17 @@ spec:
   //声明选着标签变量TAG
 
   parameters {
-    listGitBranches branchFilter: '*',
-        defaultValue: 'master',
-        name: 'branch_name',
-        type: 'PT_BRANCH',
-        remoteURL: 'https://gitlab.isigning.cn/ops/cicd-demo.git',
-        credentialsId: 'huqing',
-        selectedValue: 'DEFAULT',
-        sortMode: 'ASCENDING'
+        gitParameter(
+            branchFilter: 'refs/heads/(.*)',
+            defaultValue: 'master',
+            name: 'branch_name',
+            remoteURL: 'https://gitlab.isigning.cn/ops/cicd-demo.git',
+            credentialsId: 'huqing',
+            selectedValue: 'DEFAULT',
+            sortMode: 'ASCENDING'
+        )
+
+
          }
     
     //声明流程
