@@ -74,15 +74,22 @@ spec:
   //声明选着标签变量TAG
 
   parameters {
-gitParameter(branch: '', branchFilter: 'origin/(.*)', defaultValue: '', description: 'Branch for build and deploy', name: 'BRANCH', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE',  tagFilter: '*', type: 'PT_BRANCH')
- }
+    listGitBranches branchFilter: '*',
+        defaultValue: 'master',
+        name: 'branch_name',
+        type: 'PT_BRANCH',
+        remoteURL: 'https://gitlab.isigning.cn/ops/cicd-demo.git',
+        credentialsId: 'huqing',
+        selectedValue: 'DEFAULT',
+        sortMode: 'ASCENDING'
+         }
     
     //声明流程
     stages {
 
         stage('从 gitlab 中拉取代码') {
             steps {
-                git branch: "$BRANCH", credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
+                git branch: "${params.branch_name}", credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
 
             }
         }
