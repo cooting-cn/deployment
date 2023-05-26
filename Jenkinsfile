@@ -91,12 +91,19 @@ parameters {
 
         stage('从 gitlab 中拉取代码') {
 
-            steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: "${params.BRANCH_NAME}"]],
-                    userRemoteConfigs: [[url: 'https://gitlab.isigning.cn/ops/cicd-demo.git',credentialsId: 'huqing']]])
-                // Your build steps here
-            }
+
+      steps {
+        script {
+          def branches = sh(script: "git ls-remote --heads https://gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'", returnStdout: true,credentialsId: huqing).trim().split('\n')
+          echo "Available branches: ${branches}"
+          env.BRANCH = input message: 'Select branch', ok: 'Build', parameters: [choice(name: 'BRANCH', choices: "${branches.join("\n")}", description: 'Select branch to build')]
+        }
+        sh "git clone https://gitlab.isigning.cn/ops/cicd-demo.git -b ${BRANCH} --single-branch"
+        sh "ls"
+      }
+
+
+
         }
         
         
@@ -110,79 +117,6 @@ parameters {
       }
     }
     
-    //代码漏洞,img镜像扫描
-    stage('漏洞,镜像扫描(暂未实现)') {
-      steps {
-      sh """
-      echo "代码漏洞,img镜像扫描"
-      """
-      }
-    }
-    
-    
-    
-    
-    //测试自动化压测
-    stage('自动化,稳定性测试(暂未实现)') {
-      steps {
-      sh """
 
-      echo "自动化测试,稳定性测试"
-      """
-      }
-    }
-    
-    
-    //待定选着灰度阶段
-//    stage('灰度是否到生产,默认超时时间20分钟') {
-//        options {
-//    timeout(time: 1, unit: 'MINUTES') // 在此处添加超时选项
-//   }
-//      input {
-//        message "还继续么?"
-//        ok "继续"
-//        submitter ""
-//        parameters {
-//          string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-//        }
-//    }
-//    
-//    
-//      steps {
-//        echo "Hello, ${PERSON}"
-//      }
-//    }
-//    
-    
-    stage('微信通知(暂未实现)') {
-      steps {
-      sh """
-      echo "微信通知"
-      """
-      }
-    }
     
   }
-  post {
-    success{
-        script{
-            println("成功！！ ✅✅✅✅✅✅✅✅✅")
-            currentBuild.description = "\n 构建成功"
-        }
-    }    
-    failure {
-        script{
-            println("失败！！ ❌❌❌❌❌❌❌❌❌")
-            currentBuild.description = "\n 构建失败"
-        }
-
-     }
-
-    aborted {
-        script{
-            println("失败！！ ❌❌❌❌❌❌❌❌❌")
-            currentBuild.description = "\n 构建失败"
-        }
-    }
-    }
-}
