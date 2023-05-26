@@ -79,7 +79,14 @@ spec:
 
       steps {
         script {
-          def branches = sh(script: "git ls-remote --heads https://gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'", returnStdout: true,credentialsId: 'huqing').trim().split('\n')
+def branches = sh(
+    script: "git ls-remote --heads https://username:password@gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'",
+    returnStdout: true,
+    credentialsId: 'huqing'
+).trim().split('\n')
+ 
+ 
+ 
           echo "Available branches: ${branches}"
           env.BRANCH = input message: 'Select branch', ok: 'Build', parameters: [choice(name: 'BRANCH', choices: "${branches.join("\n")}", description: 'Select branch to build')]
         }
