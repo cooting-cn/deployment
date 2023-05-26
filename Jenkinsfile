@@ -57,7 +57,7 @@ spec:
     //引用k8s config
     KUBECONFIG = credentials('cicd-k8s')
     //定义的仓库
-    IMG= 'registry.isigning.cn'
+    IMG= 'registry.isigning.cn/cicd'
     //定义的服务名称
     NAME= "${JOB_BASE_NAME}"
     //获取文件夹名字,定义命名空间
@@ -92,7 +92,7 @@ stages {
           echo "已经选着了分支: ${BRANCH} "
           
           //最终镜像打包镜像名字,定义的全局变量
-          env.DOCKERIMG="${env.IMG}/cicd/${env.NAME}:${BRANCH}-$BUILD_NUMBER-${TIMESTAMP}"
+          env.DOCKERIMG="${env.IMG}/${env.NAME}:${BRANCH}-$BUILD_NUMBER-${TIMESTAMP}"
 
           echo "已经定义全局镜像:${env.DOCKERIMG}"
 
