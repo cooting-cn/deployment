@@ -210,7 +210,7 @@ EOF
                 text: [
                         "# 构建项目 ：${env.JOB_NAME}",
                         "- 地址 ：${env.JOB_URL}",
-                        "- 流水线编号 ：[${currentBuild.displayName}](${env.BUILD_URL})点击跳转",
+                        "- 流水线编号 ：[${currentBuild.displayName}](${env.BUILD_URL})",
                         "- 持续时间：${currentBuild.durationString}".split("and counting")[0],
                         "- 执行人：${currentBuild.buildCauses.shortDescription}",
                         '> end'
