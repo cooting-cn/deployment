@@ -87,7 +87,7 @@ withCredentials([usernamePassword(credentialsId: 'huqing', usernameVariable: 'US
           env.BRANCH = input message: 'Select branch', ok: 'Build', parameters: [choice(name: 'BRANCH', choices: "${branches.join("\n")}", description: 'Select branch to build')]
         }
 
-        git branch: ${BRANCH}, credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
+        git branch: "${BRANCH}", credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
 
         sh "ls"
       }
