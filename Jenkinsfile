@@ -72,20 +72,20 @@ spec:
     
     //声明流程
     stages {
-
         stage('从 gitlab 中拉取代码') {
-
 
       steps {
         script {
 
 withCredentials([usernamePassword(credentialsId: 'huqing', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    def branches = sh(script: 'git ls-remote  https://${USERNAME}:${PASSWORD}@gitlab.isigning.cn/ops/cicd-demo.git  ', returnStdout: true).trim().split('\n')
+branches = sh(script: 'git ls-remote -h -t https://${USERNAME}:${PASSWORD}@gitlab.isigning.cn/ops/cicd-demo.git | awk "{print \\$2}"| sed "s#refs/heads/##;s#refs/tags/##"|tac', returnStdout: true).trim()
 }
-
-          echo "Available branches: ${branches}"
-          env.BRANCH = input message: 'Select branch', ok: 'Build', parameters: [choice(name: 'BRANCH', choices: "${branches.join("\n")}", description: 'Select branch to build')]
-        }
+        echo "已有分支: ${branches} "
+        env.BRANCH = input message: '请选择tag', ok: '确定', parameters: [choice(name: 'tag标签', choices: "${branches}", description: '默认5分钟,超时自动关闭')]
+        echo "已经选着了分支: ${BRANCH} "
+        
+        
+                }
 
         git branch: "${BRANCH}", credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
 
