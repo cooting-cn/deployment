@@ -50,7 +50,7 @@ spec:
 
   environment {   
     //存储Git仓库的地址。
-    GITURL = 'https://gitlab.isigning.cn/ops/cicd-demo.git'
+    GITURL = 'gitlab.isigning.cn/ops/cicd-demo.git'
     //调用的git用户
     GITID = 'huqing'
     //定义的服务名称
