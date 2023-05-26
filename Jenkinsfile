@@ -5,43 +5,7 @@ pipeline {
       cloud 'kubernetes'
       slaveConnectTimeout 1200
       workspaceVolume emptyDirWorkspaceVolume()
-      yaml """
-kind: Pod
-spec:
-  containers:
-    - name: jnlp
-      image: 'registry.isigning.cn/aos_aliyun/inbound-agent:alpine-jdk11-npm-go'
-      pullSecret: aoscript-registry
-      tty: true 
-      securityContext:
-        runAsUser: 0
-      volumeMounts:
-        - mountPath: "/var/run/docker.sock"
-          name: "docker-sock"
-        - mountPath: "/usr/local/share/.cache"
-          name: "yarn-che"
-        - mountPath: "/root/go"
-          name: "go-che"
-  nodeSelector:
-    cicd: ''
-  imagePullSecrets:
-    - name: aoscript-registry
-  tolerations:
-    - key: cicd
-      operator: Equal
-      effect: NoSchedule
-  restartPolicy: Never
-  volumes:
-    - name:  "docker-sock"
-      hostPath:
-        path:  "/var/run/docker.sock"
-    - name:  "yarn-che"
-      hostPath:
-        path:  "/opt/yarn/.cache"
-    - name:  "go-che"
-      hostPath:
-        path:  "/opt/go"
-      """
+      yamlFile 'jenkins-slave-pod/jenkins-agent.yaml'
     }
   }
   //
