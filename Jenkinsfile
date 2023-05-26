@@ -77,8 +77,8 @@ spec:
       steps {
         script {
 
-withCredentials([usernamePassword(credentialsId: 'huqing', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-branches = sh(script: 'git ls-remote -h -t https://${USERNAME}:${PASSWORD}@gitlab.isigning.cn/ops/cicd-demo.git | awk "{print \\$2}"| sed "s#refs/heads/##;s#refs/tags/##"|tac', returnStdout: true).trim()
+withCredentials([usernamePassword(credentialsId: "${GITID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+branches = sh(script: 'git ls-remote -h -t https://${USERNAME}:${PASSWORD}@"${GITURL}" | awk "{print \\$2}"| sed "s#refs/heads/##;s#refs/tags/##"|tac', returnStdout: true).trim()
 }
         echo "已有分支: ${branches} "
         env.BRANCH = input message: '请选择tag', ok: '确定', parameters: [choice(name: 'tag标签', choices: "${branches}", description: '默认5分钟,超时自动关闭')]
