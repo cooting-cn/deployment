@@ -79,7 +79,7 @@ spec:
       steps {
         script {
 def branches = sh(
-    script: "git ls-remote  https://huqing:huqing1994@gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'",
+    script: "git ls-remote  https://gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'",
     returnStdout: true,
     credentialsId: 'huqing'
 ).trim().split('\n')
