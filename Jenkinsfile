@@ -1,4 +1,20 @@
 
+properties([
+  parameters([
+    [$class: 'GitBranchChoiceParameter', 
+     choiceType: 'BRANCH', 
+     defaultValue: 'master', 
+     description: 'Choose the branch to build.', 
+     name: 'BRANCH',
+     remoteName: 'origin',
+     sortMode: 'NONE',
+     useRepoScm: false,
+     quickFilterEnabled: false,
+     showTags: false,
+     gitTool: 'Default'],
+  ])
+])
+
 pipeline {
   agent {
     kubernetes {
