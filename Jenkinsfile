@@ -87,8 +87,14 @@ branches = sh(script: 'git ls-remote -h -t https://${USERNAME}:${PASSWORD}@gitla
         
                 }
 
-        git branch: "${BRANCH}", credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
-
+                checkout([$class: 'GitSCM',
+                          branches: [[name: "${BRANCH}"]],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [],
+                          gitTool: 'Default',
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[url: "${env.GITURL}",credentialsId: "${env.GITID}"]]
+                        ])
         sh "ls"
       }
 
