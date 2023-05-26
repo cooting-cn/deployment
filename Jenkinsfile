@@ -80,7 +80,7 @@ spec:
         script {
 
 withCredentials([usernamePassword(credentialsId: 'huqing', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    def branches = sh(script: "git ls-remote  https://${USERNAME}:${PASSWORD}@gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'", returnStdout: true).trim().split('\n')
+    def branches = sh(script: 'git ls-remote  https://${USERNAME}:${PASSWORD}@gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'', returnStdout: true).trim().split('\n')
 }
 
           echo "Available branches: ${branches}"
