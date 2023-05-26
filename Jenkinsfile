@@ -95,7 +95,7 @@ branches = sh(script: 'git ls-remote -h -t https://${USERNAME}:${PASSWORD}@gitla
                           submoduleCfg: [],
                           userRemoteConfigs: [[url: "${env.GITURL}",credentialsId: "${env.GITID}"]]
                         ])
-        sh "ls"
+        sh "cat main.go"
       }
 
 
