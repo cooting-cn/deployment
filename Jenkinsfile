@@ -78,18 +78,17 @@ spec:
 
       steps {
         script {
-def branches = sh(
-    script: "git ls-remote  https://gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'",
-    returnStdout: true,
-    credentialsId: 'huqing'
-).trim().split('\n')
- 
- 
- 
+
+withCredentials([usernamePassword(credentialsId: 'huqing', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    def branches = sh(script: "git ls-remote  https://${USERNAME}:${PASSWORD}@github.com/myorg/myrepo.git | awk '{print \$2}' | sed 's#refs/heads/##'", returnStdout: true).trim().split('\n')
+}
+
           echo "Available branches: ${branches}"
           env.BRANCH = input message: 'Select branch', ok: 'Build', parameters: [choice(name: 'BRANCH', choices: "${branches.join("\n")}", description: 'Select branch to build')]
         }
-        sh "git clone https://gitlab.isigning.cn/ops/cicd-demo.git -b ${BRANCH} --single-branch"
+
+        git branch: ${BRANCH}, credentialsId: 'huqing', url: 'https://gitlab.isigning.cn/ops/cicd-demo.git'
+
         sh "ls"
       }
 
