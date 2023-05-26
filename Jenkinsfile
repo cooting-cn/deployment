@@ -1,20 +1,4 @@
 
-properties([
-  parameters([
-    [$class: 'GitBranchChoiceParameter', 
-     choiceType: 'BRANCH', 
-     defaultValue: 'master', 
-     description: 'Choose the branch to build.', 
-     name: 'BRANCH',
-     remoteName: 'origin',
-     sortMode: 'NONE',
-     useRepoScm: false,
-     quickFilterEnabled: false,
-     showTags: false,
-     gitTool: 'Default'],
-  ])
-])
-
 pipeline {
   agent {
     kubernetes {
@@ -86,21 +70,6 @@ spec:
 
   //
   
-  
-  //声明选着标签变量TAG
-def branchNameParam = [
-    $class: 'GitParameterDefinition',
-    name: 'BRANCH_NAME',
-    type: 'PT_BRANCH',
-    branchFilter: 'origin/(.*)',
-    defaultValue: 'master',
-    description: 'Please select the branch to build'
-]
-parameters {
-    gitParameter branchNameParam
-}
-
-
     
     //声明流程
     stages {
