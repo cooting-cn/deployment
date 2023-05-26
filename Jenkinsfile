@@ -73,7 +73,7 @@ spec:
 stages {
     
     stage('从 gitlab 中拉取代码') {
-        //一分钟超时
+        //分钟超时
       options {
         timeout(time: 10, unit: 'MINUTES') // 在此处添加超时选项
       }
