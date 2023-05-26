@@ -1,18 +1,3 @@
-properties([
-  parameters([
-    [$class: 'GitBranchChoiceParameter', 
-     choiceType: 'BRANCH', 
-     defaultValue: 'master', 
-     description: 'Choose the branch to build.', 
-     name: 'BRANCH',
-     remoteName: 'origin',
-     sortMode: 'NONE',
-     useRepoScm: false,
-     quickFilterEnabled: false,
-     showTags: false,
-     gitTool: 'Default'],
-  ])
-])
 pipeline {
   agent {
     kubernetes {
@@ -94,7 +79,7 @@ spec:
       steps {
         script {
 def branches = sh(
-    script: "git ls-remote --heads https://username:password@gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'",
+    script: "git ls-remote  https://huqing:huqing1994@gitlab.isigning.cn/ops/cicd-demo.git | awk '{print \$2}' | sed 's#refs/heads/##'",
     returnStdout: true,
     credentialsId: 'huqing'
 ).trim().split('\n')
