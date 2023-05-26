@@ -52,7 +52,7 @@ stages {
           
           echo "已有分支: ${branches} "
           //提供动态选着窗口,进行分支选着
-          env.BRANCH = input message: '请选择tag', ok: '确定', parameters: [choice(name: 'tag标签', choices: "${branches}", description: '默认5分钟,超时自动关闭')]
+          env.BRANCH = input message: '请选择tag', ok: '确定', parameters: [choice(name: 'tag标签', choices: "${branches}", description: '默认10分钟,超时自动关闭')]
           echo "已经选着了分支: ${BRANCH} "
           
           //最终镜像打包镜像名字,定义的全局变量
