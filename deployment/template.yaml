@@ -28,6 +28,8 @@ kind: Service
 metadata:
   name: $Name
   namespace: $k8sNamespace
+  labels:
+    app: $Name
 spec:
   selector:
     app: $Name
