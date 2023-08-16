@@ -8,6 +8,8 @@ apiVersion: apps/v1
 metadata:
   name: $Name
   namespace: $k8sNamespace
+  labels:
+    app: $Name
 spec:
   selector:
     matchLabels:
